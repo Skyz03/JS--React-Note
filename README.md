@@ -226,7 +226,7 @@ Output,
 [React related Article](https://stackoverflow.com/questions/55119960/inserting-html-tags-in-template-literals-in-react)
 
 ## Arrow Functions
-[Article Link](https://www.freecodecamp.org/news/when-and-why-you-should-use-es6-arrow-functions-and-when-you-shouldnt-3d851d7f0b26/)
+[Article Link](https://www.freecodecamp.org/news/when-and-why-you-should-use-es6-arrow-functions-and-when-you-shouldnt-3d851d7f0b26/) <br>
 Arrow functions (also called “fat arrow functions”) are undoubtedly one of the more popular features of ES6. They introduced a new way of writing concise functions.
 
 ```
@@ -372,5 +372,100 @@ function (a){
 // 3. Remove the argument parentheses
 a => a + 100;
 ```
+```
+// Traditional Function
+function bob (a){
+  return a + 100;
+}
+
+// Arrow Function
+let bob = a => a + 100;
+```
+
+#### The handling of this is also different in arrow functions:
+
+In short, with arrow functions there are no binding of this.
+In regular functions the this keyword represented the object that called the function, which could be the window, the document, a button or whatever.
+With arrow functions the this keyword always represents the object that defined the arrow function.
+
+With a regular function this represents the object that calls the function:
+
+```
+Click the button to execute the "hello" function again, and you will see that this time "this" represents the button object.
+[object Window][object HTMLButtonElement]
+```
+
+With an arrow function this represents the owner of the function:
+```
+Click the button to execute the "hello" function again, and you will see that "this" still represents the window object.
+[object Window][object Window]
+```
+
+Remember these differences when you are working with functions. Sometimes the behavior of regular functions is what you want, if not, use arrow functions.
+
+## JavaScript Object Destructuring:
+
+[Article Link](https://blog.greenroots.info/javascript-object-destructuring-usages-you-must-know)
+
+We use JavaScript objects to store data and retrieve it later. We store data(aka information) in key-value pairs. The key-value pair is also known as the object properties. 
+
+```
+const employee = {
+  id: 007,
+  name: 'James',
+  dept: 'Spy'
+}
+```
+Their is mechanism to hand the properties of objects in much more innovative ways. This mechanism is called Destructuring.
+
+### Using destructuring to retrieve values from an object
+
+```
+//Early Days
+const id = employee.id;
+const name = employee.name;
+```
+No doubt it works perfectly. But think about the tiring typing(or copy-paste-edit) work when you have to do it for many property values? 
+
+```const { id, name } = employee;```
+
+Here, we use the object's key names to create variables and assign them with the value from the object for the same key. Here, we use the object's key names to create variables and assign them with the value from the object for the same key.
+
+### Use destructuring to retrieve values from a nested object
+
+The object's key can have another object as a value and form a nested object.
+
+```
+const employee = {
+  id: 007,
+  name: 'James',
+  dept: {
+    id: 'D001',
+    name: 'Spy',
+    address: {
+      street: '30 Wellington Square',
+      city: 'Chelsea'  
+    }
+  }  
+}
+```
+
+```
+// Traditional Way
+const street = employee.dept.address.street;
+```
+
+```
+//Modern Ways
+const { dept: { address: { street } } } = employee;
+console.log(street);
+```
+
+
+
+
+
+
+
 
 
