@@ -292,7 +292,7 @@ If your function needs to have a self-reference at any point (e.g. recursion, ev
 
 ### No binding of this:
 
-In classic function expressions, the this keyword is bound to different values based on the context in which it is called. With arrow functions however, this is lexically bound. It means that it usesthis from the code that contains the arrow function.
+In classic function expressions, the this keyword is bound to different values based on the context in which it is called. With arrow functions however, this is lexically bound. It means that it uses this from the code that contains the arrow function.
 
 ```
 // ES5
@@ -344,5 +344,33 @@ When you should use them
 Arrow functions shine best with anything that requires this to be bound to the context, and not the function itself.
 
 Despite the fact that they are anonymous, I also like using them with methods such as map and reduce, because I think it makes my code more readable. To me, the pros outweigh the cons.
+
+Some of the differences & Limitations are:
+1. Does not have its own bindings to this or super, and should not be used as methods.
+2. Does not have new.target keyword.
+3. Not suitable for call, apply and bind methods, which generally rely on establishing a scope.
+4. Can not be used as constructors.
+5. Can not use yield, within its body.
+
+### The Arrow Function Breakdown:
+
+```
+function (a){
+  return a + 100;
+}
+
+// Arrow Function Break Down
+
+// 1. Remove the word "function" and place arrow between the argument and opening body bracket
+(a) => {
+  return a + 100;
+}
+
+// 2. Remove the body braces and word "return" -- the return is implied.
+(a) => a + 100;
+
+// 3. Remove the argument parentheses
+a => a + 100;
+```
 
 
