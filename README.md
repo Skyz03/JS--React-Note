@@ -461,6 +461,157 @@ const { dept: { address: { street } } } = employee;
 console.log(street);
 ```
 
+### Define a new variable with object destructuring
+
+There could be a situation where you are unsure if the object has a specific key while retrieving its value. Also, you may want to create a new variable with a default value in case the key is unavailable in the object.
+
+Let's take this employee object for an example,
+```
+const employee = {
+  id: 007,
+  name: 'James',
+  dept: 'Spy'
+}
+```
+Assume we are trying to retrieve the value of the age property, which is not present in the object. A traditional way to do that is,
+
+Traditional Way
+```const age = employee.age ? employee.age : 25;```
+
+Modern Way
+```const { name, age=25 } = employee;
+console.log(age);
+```
+
+### Bit of Magic
+``` 
+const {name, dept, message = `${name} is ${dept}`} = employee;
+console.log(message);
+```
+Here, we have created a new varaiable message and then assign it with avaialble value of name and dept. Pretty good.
+
+### Using JavaScript object destructuring aliases
+
+In JavaScript object destructuring, you can give your destructured variables an alias name. It comes in very handy to reduce the chances of variable name conflicts.
+
+```
+const employee = {
+  id: 007,
+  name: 'James',
+  dept: 'Spy'
+}
+```
+
+Let's assume your source code has an existing variable named dept. So if we use the same variable name in destructuring, there will be a name conflict.
+Instead, you can use an alias name to create the variable with this new name. For example, we can use the alias name department in this case. 
+
+```
+const { dept: department } = employee;
+console.log(department); //Spy
+```
+
+### Handling dynamic name property with object destructuring
+These objects may contain dynamic data such that, as a client, we may not even know the property key names in advance.
+
+```
+// Example
+const employee = {
+  id: 007,
+  name: 'James',
+  dept: 'Spy'
+}
+```
+
+Can we write a function that returns the value of the employee object properties when we pass a key as an argument? Yeah, so it means we will not hard-code the key name inside the function. It is dynamic for the function.
+
+Here is the code snippet to showcase how we may call the function.
+
+```
+// Traditional Way
+const id = getPropertyValue('id');
+const name = getPropertyValue('name');
+
+console.log(id, name); // 7 'James'
+```
+
+Defining the Function 
+
+```function getPropertyValue(key) {
+    const { [key]: returnValue } = employee;   
+    return returnValue;
+}
+```
+
+### Destructure objects in the function argument and return value
+
+You can use object destructuring to pass the property values as arguments to the function.
+
+```
+const employee = {
+  id: 007,
+  name: 'James',
+  dept: 'Spy'
+}
+```
+
+```
+function logEmployee({name, dept}) {
+  console.log(`${name} is ${dept}`); 
+}
+```
+
+Just realize how simple it is. You don't need to take the entire object as an argument and pick the required property values. You pass the values directly as function arguments and use them inside.
+
+logEmployee(employee); // James is Spy
+
+**Note:**
+If a function returns an _object_, you can destructure the values directly into variables.
+
+```
+function getUser() {
+  return {
+    'name': 'Alex',
+    'age': 45
+  }
+}
+```
+
+```
+const { age } = getUser();
+console.log(age); // 45
+```
+
+### Use object destructuring in loops
+
+Let's think of an array of employee objects. We want to iterate through the array and want to use the property values of each of the employee object.
+
+```
+const employees= [
+  { 
+      'name': 'Alex',
+      'address': '15th Park Avenue',
+      'age': 43
+  },
+  { 
+      'name': 'John',
+      'address': 'USA',
+      'age': 33
+  },
+  { 
+      'name': 'Ravi',
+      'address': 'Bangalore',
+      'age': 16
+  }
+];
+```
+
+You can use the for-of loop to loop through the employees object and then use the object destructuring assignment syntax to retrieve the details.
+
+```
+for(let {name, age} of employees) {
+  console.log(`${name} is ${age} years old!!!`);
+}
+```
 
 
 
