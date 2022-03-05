@@ -106,5 +106,36 @@ With let and const, if you try to access a variable before declaring, you will a
 3) Use const more often. Use let when you need to reassign another value to a variable. 
 4) Don't try to access a variable without declaring it
 
+## Template Literal & Tagged Template Literal
+Before ES6(ECMAScript 2015), we have used single quotes('...') and double quotes("...") to wrap string literals.
+There were limitations when we had to concatenate multiple strings and the string literal has dynamic values. The readability of these concatenations used to be a challenge as well.
+```
+var frag1 = "Hello, I'm";
+var val1= "Joe";
+var frag2 = "and my favorite color is";
+var val2 = "purple";
+
+var msg = frag1 + ' ' + val1 + ' ' + frag2 + ' ' + val2;
+```
+
+Template literals can contain placeholders that are specified by the dollar sign($) and curly braces(${expression}). The above example can be written with template literals as,
+
+```
+const name = 'Joe';
+const color = 'purple';
+
+const message = `Hello, I'm ${name} and my favorite color is ${color}`;
+console.log(message);
+```
+Output: Hello, I'm Joe and my favorite color is purple.
+
+### Tagged Template Literal
+A Tagged Template Literal is usually a function that comes before a template literal to help you in manipulating the output.
+
+
+
+
+
+
 
 
