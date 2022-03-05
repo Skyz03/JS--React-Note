@@ -107,6 +107,8 @@ With let and const, if you try to access a variable before declaring, you will a
 4) Don't try to access a variable without declaring it
 
 ## Template Literal & Tagged Template Literal
+[Article Link](https://blog.greenroots.info/what-exactly-is-javascript-tagged-template-literal)
+
 Before ES6(ECMAScript 2015), we have used single quotes('...') and double quotes("...") to wrap string literals.
 There were limitations when we had to concatenate multiple strings and the string literal has dynamic values. The readability of these concatenations used to be a challenge as well.
 ```
@@ -131,6 +133,99 @@ Output: Hello, I'm Joe and my favorite color is purple.
 
 ### Tagged Template Literal
 A Tagged Template Literal is usually a function that comes before a template literal to help you in manipulating the output.
+
+Let us take an example of this template literal again,
+
+`Hello, I'm ${name} and my favorite color is ${color}`
+
+We want to manipulate the output such that, it returns a string like the below when we pass the name as, Joe and color as, green.
+
+Hello Joe, Have a Nice Day! We know your favorite color is green
+
+How about, displaying this message in the color that is passed as an expression to the template literal? Like this when the color value is green.
+
+So, to do this there comes the power of Tag function:
+
+### Tag Function:<br>
+
+Let us first create a tag function. This is a regular JavaScript function that should return a value as per your needs. This return value is usually a manipulated output based on the template literal strings and expressions.
+```function introduce() {                
+    return 'introduce...';
+}
+```
+Next, We mention the tag function before the template literal so that, the tag function gets associated with it.
+```
+const name = 'Joe';
+const color = 'green';
+
+const message = introduce`Hello, I'm ${name} and my favorite color is ${color}`;
+```
+Important, the tag function takes in arguments:
+
+```
+function introduce(strings, arg0, arg1) {
+  console.log('strings', strings);
+  console.log('arg0', arg0);
+  console.log('arg1', arg1);
+
+  return 'introduce...';
+}
+
+const name = 'Joe';
+const color = 'purple';
+
+const message = introduce`Hello, I'm ${name} and ${color} is my favorite color!`;
+```
+![image](https://user-images.githubusercontent.com/42742924/156871221-102e58fe-5fa4-474b-93f5-77de11d3f091.png)
+
+But, passing an expression for each arguments is not a good idea as there can be as many as 10 expression or more. So, we use the concept of rest operators as shown in this example:
+
+```function introduce(strings, ...values) {
+  console.log('strings', strings);
+  console.log('values', values);
+
+  return 'introduce...';
+}
+
+const name = 'Joe';
+const color = 'purple';
+
+const message = introduce`Hello, I'm ${name} and ${color} is my favorite color!`;
+```
+![image](https://user-images.githubusercontent.com/42742924/156871331-c1e60928-9f1a-4382-a021-598f7062edce.png)
+
+Now, we can manippulate these strings to get any desired output.
+
+``` function introduce(strings, ...values) {                                                        
+   let msg = 
+     `<span style="color:${values[1]}">
+           Hello ${values[0]}, Have a Nice Day! We know your favorite color is <u>${values[1]}</u>
+      </span>`;
+
+   return msg;
+}
+
+const name = 'Joe';
+const color = 'green';
+
+const message = introduce`Hello, I'm ${name} and ${color} is my favorite color!`;
+
+console.log(message);
+```
+
+Output,
+```
+<span style="color:green">
+    Hello Joe, Have a Nice Day! We know your favorite color is <u>green</u>
+</span>
+```
+
+[React related Article](https://stackoverflow.com/questions/55119960/inserting-html-tags-in-template-literals-in-react)
+
+
+
+
+
 
 
 
