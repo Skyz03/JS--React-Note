@@ -108,6 +108,9 @@ With let and const, if you try to access a variable before declaring, you will a
 
 ## Template Literal & Tagged Template Literal
 [Article Link](https://blog.greenroots.info/what-exactly-is-javascript-tagged-template-literal)
+[Wesbos Article](https://wesbos.com/tagged-template-literals)
+
+Also, something as ```Styled Components``` implmented in React.
 
 Before ES6(ECMAScript 2015), we have used single quotes('...') and double quotes("...") to wrap string literals.
 There were limitations when we had to concatenate multiple strings and the string literal has dynamic values. The readability of these concatenations used to be a challenge as well.
@@ -221,6 +224,8 @@ Output,
 ```
 
 [React related Article](https://stackoverflow.com/questions/55119960/inserting-html-tags-in-template-literals-in-react)
+
+## Arrow Functions
 
 
 
