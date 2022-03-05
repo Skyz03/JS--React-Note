@@ -226,16 +226,18 @@ Output,
 [React related Article](https://stackoverflow.com/questions/55119960/inserting-html-tags-in-template-literals-in-react)
 
 ## Arrow Functions
-
+[Article Link](https://www.freecodecamp.org/news/when-and-why-you-should-use-es6-arrow-functions-and-when-you-shouldnt-3d851d7f0b26/)
 Arrow functions (also called “fat arrow functions”) are undoubtedly one of the more popular features of ES6. They introduced a new way of writing concise functions.
 
-```function timesTwo(params) {  
+```
+function timesTwo(params) {  
     return params * 2}
 }
 timesTwo(4);  // 8
 ```
 
-```var timesTwo = params => params * 2
+```
+var timesTwo = params => params * 2
 timesTwo(4);  // 8
 ```
 
@@ -277,11 +279,70 @@ If your function is in a block, you must also use the explicit return statement:
 If you are returning an object literal, it needs to be wrapped in parentheses. This forces the interpreter to evaluate what is inside the parentheses, and the object literal is returned.
 ```x =>({ y: x })```
 
-7) 
+7) Anonymous:<br>
+
+This anonymity creates some issues:
+1) Harder to debug
+
+When you get an error, you will not be able to trace the name of the function or the exact line number where it occurred.
+
+2) No self-referencing
+
+If your function needs to have a self-reference at any point (e.g. recursion, event handler that needs to unbind), it will not work.
+
+### No binding of this:
+
+In classic function expressions, the this keyword is bound to different values based on the context in which it is called. With arrow functions however, this is lexically bound. It means that it usesthis from the code that contains the arrow function.
+
+```
+// ES5
+var obj = {
+  id: 42,
+  counter: function counter() {
+    setTimeout(function() {
+      console.log(this.id);
+    }.bind(this), 1000);
+  }
+};
 
 
+// ES6
+var obj = {
+  id: 42,
+  counter: function counter() {
+    setTimeout(() => {
+      console.log(this.id);
+    }, 1000);
+  }
+};
+```
 
+When not to use them:
+1. Object Methods 
+When you call cat.jumps, the number of lives does not decrease. It is because this is not bound to anything, and will inherit the value of this from its parent scope.
+```
+var cat = {
+  lives: 9,
+  jumps: () => {
+    this.lives--;
+  }
+}
+```
 
+2. Callback with dynamic context 
+```var button = document.getElementById('press');
+button.addEventListener('click', () => {
+  this.classList.toggle('on');
+});
+```
+If we click the button, we would get a TypeError. It is because this is not bound to the button, but instead bound to its parent scope.
 
+3. Less readable Code
+
+When you should use them
+
+Arrow functions shine best with anything that requires this to be bound to the context, and not the function itself.
+
+Despite the fact that they are anonymous, I also like using them with methods such as map and reduce, because I think it makes my code more readable. To me, the pros outweigh the cons.
 
 
