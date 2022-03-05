@@ -97,8 +97,14 @@ blog = {}; // Uncaught TypeError: Assignment to constant variable.
 You should never try accessing a variable without declaring it. But in case it happens, let's see how the variable may behave.
 
 With var in non-strict mode, the variable will have an undefined value. This means that a variable has been declared but has no value assigned.
-With let and const, if you try to access a variable before declaring, you will always get a ReferenceError.**dsasdasd**
+With let and const, if you try to access a variable before declaring, you will always get a ReferenceError. 
 With let and const, if you try to access a variable before declaring, you will always get a ReferenceError.
+
+### Summary:<br>
+1) Don't use var anymore.
+2) Use let or const.
+3) Use const more often. Use let when you need to reassign another value to a variable. 
+4) Don't try to access a variable without declaring it
 
 
 
