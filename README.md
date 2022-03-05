@@ -107,7 +107,7 @@ With let and const, if you try to access a variable before declaring, you will a
 4) Don't try to access a variable without declaring it
 
 ## Template Literal & Tagged Template Literal
-[Article Link](https://blog.greenroots.info/what-exactly-is-javascript-tagged-template-literal)
+[Article Link](https://blog.greenroots.info/what-exactly-is-javascript-tagged-template-literal)<br>
 [Wesbos Article](https://wesbos.com/tagged-template-literals)
 
 Also, something as ```Styled Components``` implmented in React.
@@ -227,11 +227,57 @@ Output,
 
 ## Arrow Functions
 
+Arrow functions (also called “fat arrow functions”) are undoubtedly one of the more popular features of ES6. They introduced a new way of writing concise functions.
 
+```function timesTwo(params) {  
+    return params * 2}
+}
+timesTwo(4);  // 8
+```
 
+```var timesTwo = params => params * 2
+timesTwo(4);  // 8
+```
 
+### Variations in Arrow Functions
+1) No Parameter:<br>
+If there are no parameters, you can place an empty parentheses before
+```() => 42```
 
+2) Single Parameter:<br> 
+With these functions, parentheses are optional:
+```
+x => 42  || (x) => 42
+```
 
+3) Multiple Parameter:<br>
+Parentheses are required for these functions:
+```(x, y) => 42```
+
+4) Statements:<br>
+A function expression produces a value, while a function statement performs an action. With the arrow function, it is important to remember that statements need to have curly braces. Once the curly braces are present, you always need to write return as well.
+
+```var feedTheCat = (cat) => {
+  if (cat === 'hungry') {
+    return 'Feed the cat';
+  } else {
+    return 'Do not feed the cat';
+  }
+}
+```
+
+5) Block Body:<br>
+If your function is in a block, you must also use the explicit return statement:
+```var addValues = (x, y) => {
+  return x + y
+}
+```
+
+6) Object Literals:<br>
+If you are returning an object literal, it needs to be wrapped in parentheses. This forces the interpreter to evaluate what is inside the parentheses, and the object literal is returned.
+```x =>({ y: x })```
+
+7) 
 
 
 
