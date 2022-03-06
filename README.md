@@ -1015,6 +1015,220 @@ The output will be:
 1. Spread syntax (also known as the Spread Operator) is used to copy the enumerable properties of an object to create a clone of it. We can also update an object or merge with another object using the spread syntax.
 2. The Rest parameter is kind of the opposite of the Spread syntax. It helps to consolidate (or collect) the remaining object properties into a new object while destructuring is done.
 
+## JavsScript Modules and how to effectively work with Export Import
+
+No one would like to work with the code having one gigantic JavaScript file with many unrelated functions. Moreover, when you need to use a few functions from that file, you end up loading all the others unnecessarily.
+
+In JavaScript, one script is one module. A module is nothing but a JavaScript file. 
+
+We can use modules to keep the related area's code footprint smaller, concise, and independent. Using modules, we can create reusable functionalities that automatically bring down the code quantity. 
+
+### Basics of export and import
+
+**Export**:<br>
+Using the export keyword, we make the module features available to other modules. These features are usually the functions. However, it is not limited to it. We will be able to export variables, objects, classes, etc., from a module.
+
+**Import**: <br>
+As the name suggests, the import keyword is used to import other modules' features.
+
+```
+// calc.js
+
+export const sum = (a, b) => {
+    return a + b;
+};
+
+export const sub = (a,b) => {
+    return a - b;
+};
+```
+
+```
+// Importing to index.js
+
+import { sum, sub } from './calc.js';
+
+console.log('The Sum is', sum(2,3));
+console.log('The Sub is', sub(5,3));
+```
+
+While import the index.js file into the index.html file it is important to note that the script tag has the ```type:module```. Specifying the type as module causes the code to be treated as a JavaScript module. 
+
+```<script type="module" src="./src/index.js"></script>```
+
+While importing the functions, the related module name in the import statement must have the .js extension.
+
+```
+import { sum, sub } from './calc.js';
+```
+
+### Export together and the Aliases
+
+We have seen how to export the functions individually. We may have situations where we need to export multiple things from a module. We can do all of them together.
+
+```
+const sum = (a, b) => {
+    return a + b;
+};
+
+const sub = (a,b) => {
+    return a - b;
+};
+
+export { sum, sub };
+```
+
+As we see in the code above, we are not using the export keyword for each function. We are just exporting them together in the last line. With this, we can import the functions as we have done before.
+
+**Aliases** - While importing a function from a module, we can use an alias name instead. Consider the following example where we have used the alias called add for the imported function sum.
+
+```
+import { sum as add, sub } from './calc.js';
+
+console.log('The Sum is', add(2,3));
+console.log('The Sub is', sub(5,3));
+```
+ Once the alias is used, you can not use the old name to call the module features like function, variable, etc. It is going to throw an error.
+ 
+ ### Importing as Namespace
+ 
+ At times, we may need to import a large number of functions from a module. It would be tedious and too much code to import them as comma-separated as we have seen so far. We can short-hand this by importing them together with a Namespace. A namespace is nothing but a name of our choice. Let us take a look at this example:
+ 
+ ```
+ import * as Calc from './calc.js';
+
+console.log('The Sum is', Calc.sum(2,3));
+console.log('The Sub is', Calc.sub(5,3));
+```
+
+As we see here, we are importing *, which means all that is exported from, calc.js module. A more important fact to point here is importing the features by a name(Namespace) called Calc. As we did that, we can access the function using that Namespace.
+
+### Default export and When not to use it
+
+JavaScript modules provide a special keyword called default with export to specify only one thing to export from a file. <br>
+
+However, technically, we can export both Named Export and Default Export from a single file but, we shouldn't mix them. Use either Named or Default export.
+
+Example:
+```
+// whoami.js
+
+const sayMyName = () => {
+    return 'Tapas';
+};
+
+export default sayMyName;
+```
+
+### While Importing:
+
+#### Using default as syntax:
+
+```
+import { default as sayMyName } from './whoami.js';
+```
+
+OR, without curly braces:
+
+```
+import sayMyName from './whoami.js';
+```
+Try not to mix the default export and named export together. Use default export when only one thing to export.
+
+While importing a feature exported with 'default', it is not mandatory to use the same name. Here is an example of how we can import the sayMyName function,
+
+```
+import { default as name } from './whoami.js';
+
+import name from './whoami.js';
+```
+
+### Combine Exports 
+We can combine the multiple exports from various modules and do a combined export from a single file.
+
+```
+ // calc.js
+
+ const sum = (a, b) => {
+     return a + b;
+  };
+
+ const sub = (a,b) => {
+     return a - b;
+ };
+
+ export { sum, sub };
+```
+
+```
+ // whoami.js
+
+ const sayMyName = () => {
+     return 'Tapas';
+ };
+
+ export default sayMyName;
+```
+Now, we can combine the exports from both the modules into one module and export from there. 
+
+``` // combine.js
+
+ export * as Calc from './calc.js';
+ export name from './whoami.js';
+```
+
+Importing the functions:
+
+```
+
+ import * as Combine from './combine.js';
+
+ console.log('The Sum is', Combine.Calc.sum(2,3));
+ console.log('The Sub is', Combine.Calc.sub(5,3));
+
+ console.log('The name is', Combine.name());
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
