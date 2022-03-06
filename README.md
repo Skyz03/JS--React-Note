@@ -613,6 +613,38 @@ for(let {name, age} of employees) {
 }
 ```
 
+## JavaScript Synchronous vs Asynchronous - Call Stack, Promises & More
+
+JavaScript is a single-threaded, non-blocking, asynchronous, concurrent programming language with lots of flexibility.
+
+If you understand what single-threaded means, you'll likely mostly associate it with synchronous operations. How can JavaScript be asynchronous, then?
+
+### JavaScript Functions:
+In JavaScript, you can create and modify a function, use it as an argument, return it from another function, and assign it to a variable. All these abilities allow us to use functions everywhere to place a bunch of code logically.
+```
+// Define a function
+function f1() {
+    // Do something
+    // Do something again
+    // Again
+    // So on...
+}
+
+// Invoke the function
+f1();
+```
+By default, every line in a function executes sequentially, one line at a time. The same is applicable even when you invoke multiple functions in your code. Again, line by line.
+
+### Synchronous JavaScript:
+So what happens when a function is defined and invoke it. The JS engine maintains a stack data structure called function execution stack. The purpose of the stack is to track the current function in execution. 
+
+#### Inside a function execution stack:<br>
+1. When the JavaScript engine invokes a function, it adds it to the stack, and the execution starts.
+2. If the currently executed function calls another function, the engine adds the second function to the stack and starts executing it.
+3. Once it finishes executing the second function, the engine takes it out from the stack.
+4. The control goes back to resume the execution of the first function from the point it left it last time.
+5. Once the execution of the first function is over, the engine takes it out of the stack.
+6. Continue the same way until there is nothing to put into the stack.
 
 
 
