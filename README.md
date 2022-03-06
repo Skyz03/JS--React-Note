@@ -615,6 +615,8 @@ for(let {name, age} of employees) {
 
 ## JavaScript Synchronous vs Asynchronous - Call Stack, Promises & More
 
+[Article Link](https://www.freecodecamp.org/news/synchronous-vs-asynchronous-in-javascript/)<br>
+
 JavaScript is a single-threaded, non-blocking, asynchronous, concurrent programming language with lots of flexibility.
 
 If you understand what single-threaded means, you'll likely mostly associate it with synchronous operations. How can JavaScript be asynchronous, then?
@@ -638,7 +640,7 @@ By default, every line in a function executes sequentially, one line at a time. 
 ### Synchronous JavaScript:
 So what happens when a function is defined and invoke it. The JS engine maintains a stack data structure called function execution stack. The purpose of the stack is to track the current function in execution. 
 
-#### Inside a function execution stack:<br>
+#### Inside a function execution stack **(Call Stack)** :<br>
 1. When the JavaScript engine invokes a function, it adds it to the stack, and the execution starts.
 2. If the currently executed function calls another function, the engine adds the second function to the stack and starts executing it.
 3. Once it finishes executing the second function, the engine takes it out from the stack.
@@ -646,8 +648,153 @@ So what happens when a function is defined and invoke it. The JS engine maintain
 5. Once the execution of the first function is over, the engine takes it out of the stack.
 6. Continue the same way until there is nothing to put into the stack.
 
+A quick example of the flow for the execution order:
 
+```
+function f1() {
+  // some code
+}
+function f2() {
+  // some code
+}
+function f3() {
+  // some code
+}
 
+// Invoke the functions one by one
+f1();
+f2();
+f3();
+```
+
+First, f1() goes into the stack, executes, and pops out. Then f2() does the same, and finally f3(). After that, the stack is empty, with nothing else to execute.
+
+A complex example:
+
+```
+function f1() {
+  // Some code
+}
+function f2() {
+  f1();
+}
+function f3() {
+  f2();
+}
+f3();
+```
+
+Notice that first f3() gets into the stack, invoking another function, f2(). So now f2() gets inside while f3() remains in the stack. The f2() function invokes f1(). So, time for f1() to go inside the stack with both f2() and f3() remaining inside.<br>
+First, f1() finishes executing and comes out of the stack. Right after that f2() finishes, and finally f3().
+This is the Synchronous part of JavaScript. 
+
+### Asynchronous JavaScript – How Browser APIs and Promises Work
+
+The word asynchronous means not occurring at the same time. Typically, executing things in sequence works well. But you may sometimes need to fetch data from the server or execute a function with a delay, something you do not anticipate occurring NOW. So, you want the code to execute asynchronously.
+
+In this circumstance, you may not want the JS engine to halt the execution of the other sequential code. So, the JavaScript engine needs to manage things a bit more efficiently in this case.
+
+The two triggers for asynchronous JS operations are:
+1. Browser API/Web API: These include methods like setTimeout, or event handlers like click, mouse over, scroll, and many more.
+2. Promises: A unique JavaScript object that allows us to perform asynchronous operations.
+
+### Handling Browser Api/Web Api:
+
+Browser APIs like setTimeout and event handlers rely on callback functions.
+
+```
+function printMe() {
+  console.log('print me');
+}
+
+setTimeout(printMe, 2000);
+```
+
+The setTimeout function executes a function after a certain amount of time has elapsed. In the code above, the text print me logs into the console after a delay of 2 seconds.
+
+An Example:
+
+```
+function printMe() {
+  console.log('print me');
+}
+
+function test() {
+  console.log('test');
+}
+
+setTimeout(printMe, 2000);
+test();
+```
+
+Will the JavaScript engine wait for 2 seconds to go to the invocation of the test() function and output this:
+```
+printMe
+test
+```
+
+OR, Will it manage to keep the callback function of setTimeout aside and continue its other executions:
+
+```
+test
+printMe
+```
+The last one is correct as this is where the asynchronous mechanism comes.
+
+### How the JavaScript Callback Queue Works (Task Queue)
+
+JavaScript maintains a queue of callback functions. It is called a callback queue or task queue. A queue data structure is First-In-First-Out(FIFO). 
+
+#### Step process how Task Queue works:
+1. When a Browser API occurs, park the callback functions in a queue.
+2. Keep executing code as usual in the stack.
+3. The event loop checks if there is a callback function in the queue.
+4. If so, pull the callback function from the queue to the stack and execute.
+5. Continue the loop.
+
+```
+// Code Example
+
+function f1() {
+    console.log('f1');
+}
+
+function f2() {
+    console.log('f2');
+}
+
+function main() {
+    console.log('main');
+    
+    setTimeout(f1, 0);
+    
+    f2();
+}
+
+main();
+```
+Here, the output is 
+```
+main
+f2
+f1
+```
+
+As we may think there is no delay in setTimout which makes it to execute directly but it does not happen and it goes to event loop mechanism and continues other code.
+
+A clear Step of how this will work:
+
+1) The main() function gets inside the call stack.
+2) It has a console log to print the word main. The console.log('main') executes and goes out of the stack.
+3) The setTimeout browser API takes place.
+4) The callback function puts it into the callback queue.
+5) In the stack, execution occurs as usual, so f2() gets into the stack. The console log of f2() executes. Both go out of the stack.
+6) The main() also pops out of the stack.
+7) The event loop recognizes that the call stack is empty, and there is a callback function in the queue.
+8) The callback function f1() then goes into the stack. Execution starts. The console log executes, and f1() also comes out of the stack.
+9) At this point, nothing else is in the stack and queue to execute further.
+
+### Promises
 
 
 
