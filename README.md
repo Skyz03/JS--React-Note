@@ -861,6 +861,8 @@ In Summary
 
 ## Spread Syntax in JS
 
+[Article Link](https://www.freecodecamp.org/news/javascript-object-destructuring-spread-operator-rest-parameter/)
+
 The Spread Syntax (also known as the Spread Operator) is another excellent feature of ES6. As the name indicates, it takes an iterable (like an array) and expands (spreads) it into individual elements. Spread syntax helps us clone an object with the most straightforward syntax using the curly braces and three dots {...}.
 
 With spread syntax we can clone, update, and merge objects in an immutable way. The immutability helps reduce any accidental or unintentional changes to the original (Source) object.
