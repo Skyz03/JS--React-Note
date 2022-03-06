@@ -795,6 +795,200 @@ A clear Step of how this will work:
 9) At this point, nothing else is in the stack and queue to execute further.
 
 ### Promises
+Promises are special objects that help you perform asynchronous operations. You need to pass an executor function to it. In the executor function, you define what you want to do when a promise returns successfully or when it throws an error. You can do that by calling the resolve and reject methods, respectively.
+
+```
+const promise = new Promise((resolve, reject) =>
+        resolve('I am a resolved promise');
+);
+promise.then(result => console.log(result))
+```
+
+The point here is that JavaScript engine doesn't use the same callback queue we have seen earlier for browser APIs. It uses another special queue called the _Job Queue._
+
+### Job Queue:
+Every time a promise occurs in the code, the executor function gets into the job queue. 
+
+The item in the callback queue is called a macro task, whereas the item in the job queue is called a micro task.
+
+```
+So the entire flow goes like this:
+
+    For each loop of the event loop, one task is completed out of the callback queue.
+    Once that task is complete, the event loop visits the job queue. It completes all the micro tasks in the job queue before it looks into the next thing.
+    If both the queues got entries at the same point in time, the job queue gets preference over the callback queue.
+```
+
+Example:
+
+```
+function f1() {
+    console.log('f1');
+}
+
+function f2() {
+    console.log('f2');
+}
+
+function main() {
+    console.log('main');
+    
+    setTimeout(f1, 0);
+    
+    new Promise((resolve, reject) =>
+        resolve('I am a promise')
+    ).then(resolve => console.log(resolve))
+    
+    f2();
+}
+
+main();
+```
+
+Answer: main => f2 => i am a promise => f1
+
+The flow is almost the same as above, but it is crucial to notice how the items from the job queue prioritize the items from the task queue. Also note that it doesn't even matter if the setTimeout has zero delay. It is always about the job queue that comes before the callback queue.
+
+In Summary
+
+1. The JavaScript engine uses the stack data structure to keep track of currently executed functions. The stack is called the function execution stack.
+2. The function execution stack (aka call stack) executes the functions sequentially, line-by-line, one-by-one.
+3. The browser/web APIs use callback functions to complete the tasks when an asynchronous operation/delay is done. The callback function is placed in the callback queue.
+4. The promise executor functions are placed in the job queue.
+5. For each loop of the event loop, one macro task is completed out of the callback queue.
+6. Once that task is complete, the event loop visits the job queue. It completes all the micro-tasks in the job queue before it looks for the next thing.
+7. If both the queues get entries at the same point in time, the job queue gets preference over the callback queue.
+
+## Spread Syntax in JS
+
+The Spread Syntax (also known as the Spread Operator) is another excellent feature of ES6. As the name indicates, it takes an iterable (like an array) and expands (spreads) it into individual elements. Spread syntax helps us clone an object with the most straightforward syntax using the curly braces and three dots {...}.
+
+With spread syntax we can clone, update, and merge objects in an immutable way. The immutability helps reduce any accidental or unintentional changes to the original (Source) object.
+
+### Clone an Object
+
+```
+
+const user = { 
+    'name': 'Alex',
+    'address': '15th Park Avenue',
+    'age': 43
+}
+
+const clone = {...user} // Output, {name: "Alex", address: "15th Park Avenue", age: 43}
+
+clone === user; // Output, false
+```
+
+Alternatively use object.assign() to create a clone of an object. However, the spread syntax is much more precise and much shorter.
+
+### Add properties to Objects
+We can add a new property (key-value pair) to the object using the spread syntax. Note that the actual object never gets changed. The new property gets added to the cloned object.
+
+```
+
+const user = { 
+    'name': 'Alex',
+    'address': '15th Park Avenue',
+    'age': 43
+}
+
+// Add a new property salary
+const updatedUser = {...user, salary:12345}; // {name: "Alex", address: "15th Park Avenue", age: 43, salary: 12345}
+
+// Original object is unchanged
+console.log(user); // {name: "Alex", address: "15th Park Avenue", age: 43}
+```
+
+### Update Properties
+We can also update an existing property value using the spread syntax. 
+
+```
+
+const user = { 
+    'name': 'Alex',
+    'address': '15th Park Avenue',
+    'age': 43
+}
+
+const updatedUser = {...user, age:56}; // {name: "Alex", address: "15th Park Avenue", age: 56}
+
+console.log(user); // {name: "Alex", address: "15th Park Avenue", age: 43}
+```
+
+### Update Nested Objects
+However, it can be a bit tricky when you try to update a nested object using the spread syntax.
+```
+// Example 
+const user = { 
+    'name': 'Alex',
+    'address': '15th Park Avenue',
+    'age': 43,
+    'department':{
+        'name': 'Sales',
+        'Shift': 'Morning',
+        'address': {
+            'city': 'Bangalore',
+            'street': '7th Residency Rd',
+            'zip': 560001
+        }
+    }
+}
+```
+Here is the correct syntax that will add a new property number with the value 7 to the department object without replacing its value:
+
+```const updated = {
+    ...user, 
+    department: {
+        ...user.department, 
+        'number': 7
+    }
+};
+
+console.log(updated);
+```
+
+### Merge Two Objects
+The last practical use of the spread syntax in JavaScript objects is to combine or merge two objects. obj_1 and obj_2 can be merged together using the following syntax. Note that this way of merging performs a shallow merge. This means that if there is a common property between both the objects, the property value of obj_2 will replace the property value of obj_1 in the merged object.
+
+```
+
+const user = { 
+    'name': 'Alex',
+    'address': '15th Park Avenue',
+    'age': 43
+}
+
+const department = {
+    'id': '001',
+    'Shift': 'Morning'
+}
+```
+
+```
+// Merge two objects 
+const completeDetails = {...user, ...department};
+
+console.log(completeDetails);
+```
+Output: 
+![image](https://user-images.githubusercontent.com/42742924/156912992-6e7425f7-289f-4b9f-8057-b803b3950135.png)
+
+If we change the department object like this:
+```
+const department = {
+    'name': 'Sales',
+    'Shift': 'Morning'
+}
+```
+Now try to combine them and observe the combined object output:
+![image](https://user-images.githubusercontent.com/42742924/156913003-780ac35a-8f86-4bb0-94a0-bace820b9cb0.png)
+
+The name property value of the user object is replaced by the name property value of the department object in the merged object output. 
+You need to implement the deep-merge of objects by yourself or make use of a library like lodash to accomplish it.
+
+
+
 
 
 
