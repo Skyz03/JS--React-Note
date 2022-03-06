@@ -987,6 +987,32 @@ Now try to combine them and observe the combined object output:
 The name property value of the user object is replaced by the name property value of the department object in the merged object output. 
 You need to implement the deep-merge of objects by yourself or make use of a library like lodash to accomplish it.
 
+## Rest Parameter in JS
+The Rest parameter is kind of opposite to the spread syntax. While spread syntax helps expand or spread elements and properties, the rest parameter helps collect them together.
+
+In the case of objects, the rest parameter is mostly used with destructuring syntax to consolidate the remaining properties in a new object you're working with.
+
+```
+
+const user = { 
+    'name': 'Alex',
+    'address': '15th Park Avenue',
+    'age': 43
+}
+```
+
+```
+const {age, ...rest} = user;
+console.log(age, rest);
+```
+
+The output will be:
+![image](https://user-images.githubusercontent.com/42742924/156913079-24b148b9-3d0c-4a0c-85d8-0935c512e956.png)
+
+### In Summary:
+1. Spread syntax (also known as the Spread Operator) is used to copy the enumerable properties of an object to create a clone of it. We can also update an object or merge with another object using the spread syntax.
+2. The Rest parameter is kind of the opposite of the Spread syntax. It helps to consolidate (or collect) the remaining object properties into a new object while destructuring is done.
+
 
 
 
