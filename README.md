@@ -1,4 +1,4 @@
-# JS--React-Note
+# JS--To-React-Note
 
 ## The story behind Let, Const & Var
 [Article Link](https://www.freecodecamp.org/news/understanding-let-const-and-var-keywords/)
